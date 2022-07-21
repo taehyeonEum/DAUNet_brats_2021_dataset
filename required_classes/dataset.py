@@ -43,7 +43,7 @@ class DukeDataset(Dataset):
         if image.ndim == 2:
             image = image[:,:,np.newaxis] #(x, y) --> (x, y, 1)
         if label.ndim == 2:
-            label = label[:,:,np.newaxis]
+            label = label[:,:,np.newaxis] 
 
         # data = {'input':image, 'label': label}
         
