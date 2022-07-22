@@ -54,9 +54,10 @@ for idx, sub_name in enumerate(patient_list): # sub_name is subject name
 
         cont_type = cont_name.split('.')[0].split('_')[-1] # type of contrast
 
-        cont_tr = np.array(nb.load(cont_path).get_fdata()) # npy array
+        if cont_type == 'seg':
+            cont_tr = np.array(nb.load(cont_path).get_fdata()) # npy array
 
-        cont_tr = cont_tr.transpose(2, 0, 1)
+            cont_tr = cont_tr.transpose(2, 0, 1)
         # print(cont_tr.shape) # 155, 240, 240
 
         # cont_tr = cont_tr/cont_tr.max()
@@ -68,7 +69,8 @@ for idx, sub_name in enumerate(patient_list): # sub_name is subject name
         # param['min'] = cont_tr.min()
         # param['{}_std'.format(cont_type)] = cont_tr.std()
 
-        conts[cont_type] = (cont_tr - cont_tr.min()) / (cont_tr.max() - cont_tr.min())
+        '''important lines'''
+        # conts[cont_type] = (cont_tr - cont_tr.min()) / (cont_tr.max() - cont_tr.min())
 
         # print('mean', cont_tr.mean())
         # print('max', cont_tr.max())
@@ -106,12 +108,12 @@ for idx, sub_name in enumerate(patient_list): # sub_name is subject name
     # print(conts.keys())
     # print(conts['seg'].shape)
 
-    concated = np.concatenate((np.expand_dims(conts['t1'], 1), np.expand_dims(conts['t1ce'], 1), np.expand_dims(conts['t2'], 1), np.expand_dims(conts['flair'], 1) ), 1)
+    # concated = np.concatenate((np.expand_dims(conts['t1'], 1), np.expand_dims(conts['t1ce'], 1), np.expand_dims(conts['t2'], 1), np.expand_dims(conts['flair'], 1) ), 1)
     # print(concated.shape)
 
 
 
-    for idx_s, slice in enumerate(concated):
+    for idx_s, slice in enumerate(cont_tr):
 
         tumor = 'N'
         if idx_s >= tTop and idx_s <= tBottom:
@@ -124,12 +126,10 @@ for idx, sub_name in enumerate(patient_list): # sub_name is subject name
         else:
             save_dir = (test_img_dir, test_msk_dir)
 
-        img_path = os.path.join( save_dir[0] , sub_name + '_' + str_num(idx_s) + '_{}.npy'.format(tumor))
         msk_path = os.path.join( save_dir[1] , sub_name + '_' + str_num(idx_s) + '_{}.npy'.format(tumor))
 
         # for i in range(155):
-        np.save(img_path, concated[idx_s])
-        np.save(msk_path, (conts['seg']>0).astype('uint8'))
+        np.save(msk_path, (cont_tr[idx_s]))
 
 
     # if idx == 1: break

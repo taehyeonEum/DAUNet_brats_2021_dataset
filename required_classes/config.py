@@ -49,7 +49,7 @@ def parse_args_(args):
 
 #datapaths
 # ENTER local path to "DATA_PATH" where your train and test data are saved
-DATA_PATH = '/home/NAS_mount/thum/brats/data'
+DATA_PATH = '/home/NAS_mount/thum/brats/data2'
 data_dir_list = os.listdir(DATA_PATH)
 TRAIN_IMAGE_PATH = os.path.join(DATA_PATH, 'Train_img')
 TRAIN_MASK_PATH  = os.path.join(DATA_PATH, 'Train_msk')

@@ -8,9 +8,8 @@ meanFour = (0.5, 0.5, 0.5, 0.5)
 def transform_js(mode,resol):
     if mode == 'train':
         train_transform = Compose([
-            AA.Resize(height = resol, width = resol),
-             
-            AA.Normalize(meanFour, meanFour, max_pixel_value=1.0), #normalize 방식을 바꿔볼 수도 있겠음!
+            # AA.Resize(height = resol, width = resol),
+            # AA.Normalize(meanFour, meanFour, max_pixel_value=1.0), #normalize 방식을 바꿔볼 수도 있겠음!
             
             A.HorizontalFlip(p=0.5),
             A.VerticalFlip(p=0.5),
@@ -26,8 +25,9 @@ def transform_js(mode,resol):
     
     elif mode == 'test':
         test_transform = Compose([
-            AA.Resize(height = resol, width = resol),
-            AA.Normalize(meanFour, meanFour, max_pixel_value=1.0),
+            # AA.Resize(height = resol, width = resol),
+            # AA.Normalize(meanFour, meanFour, max_pixel_value=1.0),
+
             Ap.transforms.ToTensorV2()
              ])
         return test_transform
